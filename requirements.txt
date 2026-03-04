@@ -1,5 +1,41 @@
-flask
-sentence-transformers
-scikit-learn
-numpy
-gunicorn
+from flask import Flask, request, jsonify
+import json
+import numpy as np
+
+app = Flask(__name__)
+
+with open("college_data.json", "r") as f:
+    data = json.load(f)
+
+questions = [item["question"].lower() for item in data]
+answers = [item["answer"] for item in data]
+
+def simple_match(user_q):
+    user_q = user_q.lower()
+    user_words = set(user_q.split())
+    best_score = -1
+    best_answer = answers[0]
+    for i, q in enumerate(questions):
+        q_words = set(q.split())
+        score = len(user_words & q_words)
+        if score > best_score:
+            best_score = score
+            best_answer = answers[i]
+    return best_answer
+
+@app.route('/ask', methods=['POST'])
+def ask():
+    user_question = request.json.get("question", "")
+    answer = simple_match(user_question)
+    return jsonify({"answer": answer})
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+```
+
+Save it, then run:
+```
+cd C:\college_chatbot
+git add .
+git commit -m "reduce memory usage"
+git push
