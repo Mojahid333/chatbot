@@ -1,33 +1,32 @@
 from flask import Flask, request, jsonify
-from sentence_transformers import SentenceTransformer
-from sklearn.metrics.pairwise import cosine_similarity
 import json
-import numpy as np
 
 app = Flask(__name__)
-
-print("Loading AI model... please wait...")
-model = SentenceTransformer('all-MiniLM-L6-v2')
 
 with open("college_data.json", "r") as f:
     data = json.load(f)
 
-print("Loading your questions into memory...")
-questions = [item["question"] for item in data]
+questions = [item["question"].lower() for item in data]
 answers = [item["answer"] for item in data]
-question_embeddings = model.encode(questions)
 
-print("✅ System Ready! All questions loaded.")
+def find_answer(user_q):
+    user_q = user_q.lower()
+    user_words = set(user_q.split())
+    best_score = -1
+    best_index = 0
+    for i, q in enumerate(questions):
+        q_words = set(q.split())
+        score = len(user_words & q_words)
+        if score > best_score:
+            best_score = score
+            best_index = i
+    return answers[best_index]
 
 @app.route('/ask', methods=['POST'])
 def ask():
     user_question = request.json.get("question", "")
-    query_embedding = model.encode([user_question])
-    similarities = cosine_similarity(query_embedding, question_embeddings)[0]
-    best_match = int(np.argmax(similarities))
-    answer = answers[best_match]
+    answer = find_answer(user_question)
     return jsonify({"answer": answer})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
-
