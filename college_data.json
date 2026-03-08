@@ -85,7 +85,7 @@
   },
   {
     "question": "Will my previous university credits be accepted",
-    "answer": "Only if they meet the university\u2019s equivalency criteria."
+    "answer": "Only if they meet the university equivalency criteria."
   },
   {
     "question": "How many credits can I transfer",
@@ -177,7 +177,7 @@
   },
   {
     "question": "Can I apply for a grade improvement under EDU-REVOLUTION",
-    "answer": "Yes, if it falls within the university\u2019s guidelines."
+    "answer": "Yes, if it falls within the university guidelines."
   },
   {
     "question": "How does grade improvement work",
@@ -238,5 +238,105 @@
   {
     "question": "Will EDU-REVOLUTION help me graduate early",
     "answer": "Yes, if you meet all degree requirements ahead of time."
+  },
+  {
+    "question": "What is EDU-REVOLUTION?",
+    "answer": "EDU-REVOLUTION is an initiative by LPU to provide students with flexible learning options, grade improvement, attendance relaxation, and decision-making participation."
+  },
+  {
+    "question": "Who can apply for Recognition of Prior Learning (RPL)?",
+    "answer": "Students who believe they already have knowledge in basic courses like English, Mathematics, and Soft Skills can apply for RPL before the start of the term."
+  },
+  {
+    "question": "What is the minimum grade required for RPL exemption?",
+    "answer": "A minimum of B+ (7 GPA) is required in the RPL examination for course exemption."
+  },
+  {
+    "question": "Can I apply for multiple RPL courses in one term?",
+    "answer": "No, students can apply for only one course per term under RPL."
+  },
+  {
+    "question": "What is NPTEL/MOOCs certification relaxation?",
+    "answer": "Students who complete an equivalent NPTEL/MOOCs certification course can apply for course and attendance relaxation."
+  },
+  {
+    "question": "What is the CGPA requirement for NPTEL course relaxation?",
+    "answer": "1st-year students need a CGPA of 7.5+, while 2nd, 3rd, and 4th-year students need 8+ to be eligible for course exemption."
+  },
+  {
+    "question": "Can I apply for course equivalence by doing a project?",
+    "answer": "Yes, students with CGPA 7.5+ (1st year) and 8+ (others) can apply for course equivalence by submitting a detailed project proposal."
+  },
+  {
+    "question": "What kind of projects qualify for course equivalence?",
+    "answer": "Projects that lead to patents, copyrights, publications, or industry/government sponsorships are eligible."
+  },
+  {
+    "question": "What is GROW in EDU-REVOLUTION?",
+    "answer": "GROW (Grade Revision and Overall Welfare) allows students to improve grades based on achievements in competitions, startups, patents, or higher studies."
+  },
+  {
+    "question": "Can I improve my grade through hackathons or competitions?",
+    "answer": "Yes, exceptional performance in national or international competitions can lead to grade upgrades under GROW."
+  },
+  {
+    "question": "Can my startup help me improve grades?",
+    "answer": "Yes, students running freelancing or startup ventures with revenue generation can apply for grade improvement."
+  },
+  {
+    "question": "How can patents or research publications help in GROW?",
+    "answer": "If a student publishes a paper, gets a patent, or copyright, they can apply for grade improvement."
+  },
+  {
+    "question": "Can performance in competitive exams improve my grades?",
+    "answer": "Yes, performance in exams like GATE, JAM, UGC-NET, CAT, AFCAT, and CDS can lead to grade revisions."
+  },
+  {
+    "question": "How do I apply for GROW?",
+    "answer": "Students can apply via the online interface by submitting proof of their achievements."
+  },
+  {
+    "question": "What is the 10% attendance waiver?",
+    "answer": "Pre-final and final-year students with CGPA 8+ can apply for a 10% attendance relaxation for competitive exams, projects, or freelancing."
+  },
+  {
+    "question": "How can I apply for a 10% attendance waiver?",
+    "answer": "Students must apply via UMS at the start of each term, mentioning the intended activity."
+  },
+  {
+    "question": "What is CARE in EDU-REVOLUTION?",
+    "answer": "CARE (Continuous Assessment Reduction through Experience) allows students to modify one Continuous Assessment through real-life problem-solving assignments."
+  },
+  {
+    "question": "What are the CGPA criteria for CARE?",
+    "answer": "1st-year students need a CGPA of 7.5+, and 2nd, 3rd, and 4th-year students need 8+ to apply."
+  },
+  {
+    "question": "Can I choose any subject for CARE?",
+    "answer": "Students can apply for CARE for one subject per term, subject to academic committee approval."
+  },
+  {
+    "question": "How do I apply for CARE?",
+    "answer": "Applications are submitted via the UMS interface for review."
+  },
+  {
+    "question": "What are student committees in EDU-REVOLUTION?",
+    "answer": "Students can join committees for academics, career development, entrepreneurship, and media to actively participate in decision-making."
+  },
+  {
+    "question": "How can I apply for student committees?",
+    "answer": "Students must submit applications via UMS, and selection is based on credentials and interviews."
+  },
+  {
+    "question": "Where can I apply for all these initiatives?",
+    "answer": "Students can apply via UMS under LMS EDU Revolution BE THE CHANGE."
+  },
+  {
+    "question": "Where can I raise queries regarding EDU-REVOLUTION?",
+    "answer": "Queries can be raised through the UMS Relationship Management System."
+  },
+  {
+    "question": "Is there any helpline for EDU-REVOLUTION?",
+    "answer": "Yes, students can contact the helpline at 01824-520150 for any assistance."
   }
 ]
