@@ -16,7 +16,15 @@ def find_answer(user_q):
     best_index = 0
     for i, q in enumerate(questions):
         q_words = set(q.split())
-        score = len(user_words & q_words)
+        # Common words between question and user input
+        common = len(user_words & q_words)
+        # Bonus if more of user words are covered
+        if len(user_words) > 0:
+            coverage = common / len(user_words)
+        else:
+            coverage = 0
+        # Combined score
+        score = common + coverage
         if score > best_score:
             best_score = score
             best_index = i
