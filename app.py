@@ -9,8 +9,8 @@ app = Flask(__name__)
 with open("college_data.json", "r") as f:
     data = json.load(f)
 
-GEMINI_API_KEY = "AIzaSyC9w_cxhJ3plFU6sa-wBorQuzB71o7aYZg"
-
+import os
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 qa_context = ""
 for item in data:
     qa_context += f"Q: {item['question']}\nA: {item['answer']}\n\n"
