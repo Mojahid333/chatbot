@@ -21,7 +21,9 @@ def find_answer(user_q):
             best_score = score
             best_index = i
     return answers[best_index]
-
+@app.route('/', methods=['GET'])
+def home():
+    return "Chatbot is running!"
 @app.route('/ask', methods=['POST'])
 def ask():
     user_question = request.json.get("question", "")
