@@ -29,6 +29,20 @@ def ask():
     user_question = request.json.get("question", "")
     answer = find_answer(user_question)
     return jsonify({"answer": answer})
+import threading
+import requests
+import time
 
+def keep_alive():
+    while True:
+        time.sleep(600)
+        try:
+            requests.get("https://chatbot-8uvt.onrender.com")
+        except:
+            pass
+
+thread = threading.Thread(target=keep_alive)
+thread.daemon = True
+thread.start()
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
