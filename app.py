@@ -1,8 +1,37 @@
+from flask import Flask, request, jsonify
+import json
+import requests
+import threading
+import time
+import os
+
+app = Flask(__name__)
+
+with open("college_data.json", "r") as f:
+    data = json.load(f)
+
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
+
+def keep_alive():
+    while True:
+        time.sleep(600)
+        try:
+            requests.get("https://chatbot-8uvt.onrender.com")
+        except:
+            pass
+
+thread = threading.Thread(target=keep_alive)
+thread.daemon = True
+thread.start()
+
+@app.route('/', methods=['GET'])
+def home():
+    return "Chatbot is running!"
+
 @app.route('/ask', methods=['POST'])
 def ask():
     user_question = request.json.get("question", "")
     
-    # Find top 5 matching questions first
     user_words = set(user_question.lower().split())
     scores = []
     for i, item in enumerate(data):
@@ -13,7 +42,6 @@ def ask():
     scores.sort(reverse=True)
     top5 = scores[:5]
     
-    # Build small context with only top 5
     small_context = ""
     for score, i in top5:
         small_context += f"Q: {data[i]['question']}\nA: {data[i]['answer']}\n\n"
@@ -43,3 +71,7 @@ Answer:"""
         return jsonify({"answer": answer.strip()})
     except:
         return jsonify({"answer": "Sorry, please try again."})
+
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
