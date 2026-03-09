@@ -3,14 +3,15 @@ import json
 import requests
 import threading
 import time
+import os
 
 app = Flask(__name__)
 
 with open("college_data.json", "r") as f:
     data = json.load(f)
 
-import os
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
+
 qa_context = ""
 for item in data:
     qa_context += f"Q: {item['question']}\nA: {item['answer']}\n\n"
@@ -34,21 +35,29 @@ def home():
 @app.route('/ask', methods=['POST'])
 def ask():
     user_question = request.json.get("question", "")
-    
-    prompt = f"""You are a college chatbot. Answer the student's question using ONLY the information provided below. Give a direct, short answer.
+
+    prompt = f"""You are a college chatbot. Answer the student's question using ONLY the information provided below. Give a direct short answer only.
 
 {qa_context}
 
 Student question: {user_question}
 
-Give only the answer, nothing else."""
+Answer:"""
 
     try:
         response = requests.post(
-            f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={GEMINI_API_KEY}",
-            json={"contents": [{"parts": [{"text": prompt}]}]}
+            "https://api.groq.com/openai/v1/chat/completions",
+            headers={
+                "Authorization": f"Bearer {GROQ_API_KEY}",
+                "Content-Type": "application/json"
+            },
+            json={
+                "model": "llama3-8b-8192",
+                "messages": [{"role": "user", "content": prompt}],
+                "max_tokens": 200
+            }
         )
-        answer = response.json()["candidates"][0]["content"]["parts"][0]["text"]
+        answer = response.json()["choices"][0]["message"]["content"]
         return jsonify({"answer": answer.strip()})
     except:
         return jsonify({"answer": "Sorry, please try again."})
