@@ -32,18 +32,22 @@ def home():
 def ask():
     user_question = request.json.get("question", "")
     
-    user_words = set(user_question.lower().split())
+    user_q_lower = user_question.lower()
+    user_words = set(user_q_lower.split())
     scores = []
     for i, item in enumerate(data):
-        q_words = set(item['question'].lower().split())
-        score = len(user_words & q_words)
+        q_lower = item['question'].lower()
+        q_words = set(q_lower.split())
+        word_score = len(user_words & q_words)
+        substring_bonus = 5 if any(word in q_lower for word in user_words if len(word) > 3) else 0
+        score = word_score + substring_bonus
         scores.append((score, i))
     
     scores.sort(reverse=True)
-    top5 = scores[:5]
+    top10 = scores[:10]
     
     small_context = ""
-    for score, i in top5:
+    for score, i in top10:
         small_context += f"Q: {data[i]['question']}\nA: {data[i]['answer']}\n\n"
 
     prompt = f"""Answer this student question using ONLY the info below. Be very brief.
