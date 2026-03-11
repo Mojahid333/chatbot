@@ -113,11 +113,12 @@ def feedback():
     satisfied = request.json.get("satisfied", True)
     
     if not satisfied:
-        send_email(question, answer)
+        email_thread = threading.Thread(target=send_email, args=(question, answer))
+        email_thread.daemon = True
+        email_thread.start()
         return jsonify({"status": "Email sent!"})
     
     return jsonify({"status": "OK"})
-
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
