@@ -50,10 +50,11 @@ Please update the JSON file accordingly.
         server.login(GMAIL_USER, GMAIL_PASS)
         server.sendmail(GMAIL_USER, GMAIL_USER, msg.as_string())
         server.quit()
+        print("Email sent successfully!")
         return True
-    except:
+    except Exception as e:
+        print(f"Email error: {e}")
         return False
-
 @app.route('/', methods=['GET'])
 def home():
     return "Chatbot is running!"
