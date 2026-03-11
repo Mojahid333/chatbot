@@ -4,9 +4,6 @@ import requests
 import threading
 import time
 import os
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 
 app = Flask(__name__)
 
@@ -14,8 +11,7 @@ with open("college_data.json", "r") as f:
     data = json.load(f)
 
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
-GMAIL_USER = os.environ.get("GMAIL_USER")
-GMAIL_PASS = os.environ.get("GMAIL_PASS")
+RESEND_API_KEY = os.environ.get("RESEND_API_KEY")
 
 def keep_alive():
     while True:
@@ -31,30 +27,31 @@ thread.start()
 
 def send_email(question, answer):
     try:
-        msg = MIMEMultipart()
-        msg['From'] = GMAIL_USER
-        msg['To'] = GMAIL_USER
-        msg['Subject'] = "Chatbot Unsatisfied Answer Alert!"
-        body = f"""
-A student was NOT satisfied with the chatbot answer!
+        response = requests.post(
+            "https://api.resend.com/emails",
+            headers={
+                "Authorization": f"Bearer {RESEND_API_KEY}",
+                "Content-Type": "application/json"
+            },
+            json={
+                "from": "onboarding@resend.dev",
+                "to": "mojahid8330206@gmail.com",
+                "subject": "Chatbot Unsatisfied Answer Alert!",
+                "text": f"""A student was NOT satisfied with the chatbot answer!
 
 Question: {question}
 
 Answer Given: {answer}
 
-Please update the JSON file accordingly.
-        """
-        msg.attach(MIMEText(body, 'plain'))
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.starttls()
-        server.login(GMAIL_USER, GMAIL_PASS)
-        server.sendmail(GMAIL_USER, GMAIL_USER, msg.as_string())
-        server.quit()
-        print("Email sent successfully!")
+Please update the JSON file accordingly."""
+            }
+        )
+        print(f"Email response: {response.status_code} {response.text}")
         return True
     except Exception as e:
         print(f"Email error: {e}")
         return False
+
 @app.route('/', methods=['GET'])
 def home():
     return "Chatbot is running!"
@@ -120,6 +117,7 @@ def feedback():
         return jsonify({"status": "Email sent!"})
     
     return jsonify({"status": "OK"})
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
