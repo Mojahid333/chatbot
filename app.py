@@ -4,6 +4,9 @@ import requests
 import threading
 import time
 import os
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 app = Flask(__name__)
 
@@ -11,6 +14,8 @@ with open("college_data.json", "r") as f:
     data = json.load(f)
 
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
+GMAIL_USER = os.environ.get("GMAIL_USER")
+GMAIL_PASS = os.environ.get("GMAIL_PASS")
 
 def keep_alive():
     while True:
@@ -23,6 +28,31 @@ def keep_alive():
 thread = threading.Thread(target=keep_alive)
 thread.daemon = True
 thread.start()
+
+def send_email(question, answer):
+    try:
+        msg = MIMEMultipart()
+        msg['From'] = GMAIL_USER
+        msg['To'] = GMAIL_USER
+        msg['Subject'] = "Chatbot Unsatisfied Answer Alert!"
+        body = f"""
+A student was NOT satisfied with the chatbot answer!
+
+Question: {question}
+
+Answer Given: {answer}
+
+Please update the JSON file accordingly.
+        """
+        msg.attach(MIMEText(body, 'plain'))
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login(GMAIL_USER, GMAIL_PASS)
+        server.sendmail(GMAIL_USER, GMAIL_USER, msg.as_string())
+        server.quit()
+        return True
+    except:
+        return False
 
 @app.route('/', methods=['GET'])
 def home():
@@ -75,6 +105,18 @@ Answer:"""
         return jsonify({"answer": answer.strip()})
     except:
         return jsonify({"answer": "Sorry, please try again."})
+
+@app.route('/feedback', methods=['POST'])
+def feedback():
+    question = request.json.get("question", "")
+    answer = request.json.get("answer", "")
+    satisfied = request.json.get("satisfied", True)
+    
+    if not satisfied:
+        send_email(question, answer)
+        return jsonify({"status": "Email sent!"})
+    
+    return jsonify({"status": "OK"})
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
